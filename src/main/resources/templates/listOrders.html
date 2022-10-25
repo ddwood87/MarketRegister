@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>View all Orders</title>
+</head>
+<body>
+	<h1>Orders</h1>
+	<table>
+		<tr>
+			<th>ID</th><th>Items</th><th>Total</th><th>Paid</th><th>Transaction</th><th>Customer</th>
+		</tr>
+		<tr th:each="order : ${orders}" th:with="paid=${order.isPaid()}, total=${order.total()}">
+			<td th:text="${order.id}"/>
+			<td><a th:href="@{/orderDetail/{id}(id=${order.id})}">Items</a></td>
+			<td th:text="${total}"/>
+			<td th:text="${paid} ? 'Yes' : 'No'"/>
+			<td th:text="${paid} ? *{transaction.id} : 'None'"/>
+			<td th:text="${paid} ? *{transaction.customer} : 'None'"/>
+		</tr>
+	</table>
+</body>
+</html>

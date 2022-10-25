@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Payment</title>
+</head>
+<body th:with="order=${transaction.order}">
+<h1>Order #: <span th:text="${order.id}"></span></h1>
+	<table>
+		<tr>
+			<td>ID</td>
+			<td>Name</td>
+			<td>Price</td>
+			<td/>
+		</tr>
+		<tr th:each="item : ${order.items}">
+			<td th:text="${item.id}"/>
+			<td th:text="${item.name}"/>
+			<td th:text="${item.price}"/>
+			<td><a th:href="@{/removeFromOrder/{order_id}/{item_id}(order_id=${order.id}, item_id=${item.id})}">Delete</a></td>
+		</tr>
+		<tr>
+			<td>Total:</td>
+			<td/>
+			<td th:text="${orderTotal}"/>
+			<td/>
+		</tr>
+	</table>
+	<form th:object="${transaction}" th:action="@{/createTransaction}" method="post">
+		<input type="hidden" th:field="*{order}" th:value="${order}"/>
+		Name of Buyer: <input type="text" th:field="*{customer}"/>
+		<input type="submit" value="Purchase"/>
+	</form>
+</body>
+</html>

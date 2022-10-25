@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>View all Items</title>
+</head>
+<body>
+	<h1>Items</h1>
+	<form th:action="@{/createOrder}" method="post">
+	<table>
+		<tr>
+			<th>Select</th><th>ID#</th><th>Name</th><th>Price</th>
+		</tr>
+		<tr th:each="item : ${items}">
+			<td><input type="checkbox" name="active" th:value="${item.id}"/></td>
+			<td th:text="${item.id}"/>
+			<td th:text="${item.name}"/>
+			<td th:text="${item.price}"/>
+			<td><a th:href="@{/editItem/{id}(id=${item.id})}">Edit</a></td>
+			<td><a th:href="@{/deleteItem/{id}(id=${item.id)}}">Delete</a></td>
+		</tr>
+	</table>
+		<input type="submit" name="submit" value="Create Order"/>
+	</form>
+	<a href="/addItem">Add new Item</a>
+</body>
+</html>

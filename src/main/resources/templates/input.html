@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>${addOrEdit} an Item</title>
+</head>
+<body>
+	<form th:object="${item}" th:action="@{/addItem}" method="post">
+		<input type="hidden" name="id" th:field="*{id}"/>
+		Name: <input name="name" size="20" th:field=*{name}/>
+		Price: <input name="price" size="20" th:field=*{price}/>
+		<input name="submit" type="submit" value="Add Item"/>
+	</form>
+	<a href="/viewAllItems">View all Items</a>
+</body>
+</html>
