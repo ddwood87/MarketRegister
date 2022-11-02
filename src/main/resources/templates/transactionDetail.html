@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Transaction Detail</title>
+</head>
+<body>
+	<h1>Transaction Detail</h1>
+	<h2>Order # <span th:text="${transaction.order.id}"></span></h2>
+	<h2 style="border-top: 2px solid black; padding: 5px;">Items</h2>
+	<table>
+		<tr>
+			<th>ID</th>
+			<th>Product</th>
+			<th>Price</th>
+			<th></th>
+		</tr>
+		<tr th:each="item : ${transaction.order.items}">
+			<td th:text="*{item.id}"></td>
+			<td th:text="*{item.name}"></td>
+			<td style="text-align: right;" th:text="*{item.price}"></td>
+			<td></td>
+		</tr>	
+		<tr>
+			<td></td>
+			<td style="border-top: 2px solid black; text-align: right;">Total</td>
+			<td style="border-top: 2px solid black; text-align: right;" th:text="${total}"></td>
+			<td></td>
+		</tr>		
+		<tr>
+			<td></td>
+			<td>Buyer</td>
+			<td th:text="${transaction.customer}"></td>
+			<td></td>
+		</tr>	
+	</table>
+	<p>Thank you for your purchase.</p>
+	
+	<a href="/addItem">Add New Item</a></br>
+	<a href="/viewAllItems">View All Items</a></br>
+	<a href="/viewAllOrders">View All Orders</a>
+</body>
+</html>

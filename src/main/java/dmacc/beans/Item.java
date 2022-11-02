@@ -28,4 +28,5 @@ public class Item {
 	@Column(unique=true)
 	String name;
 	double price;
+	boolean active;
 }

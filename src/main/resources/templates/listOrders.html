@@ -15,9 +15,13 @@
 			<td><a th:href="@{/orderDetail/{id}(id=${order.id})}">Items</a></td>
 			<td th:text="${total}"/>
 			<td th:text="${paid} ? 'Yes' : 'No'"/>
-			<td th:text="${paid} ? *{transaction.id} : 'None'"/>
-			<td th:text="${paid} ? *{transaction.customer} : 'None'"/>
+			<td th:text="${paid} ? *{order.transaction.id} : 'None'"/>
+			<td th:text="${paid} ? *{order.transaction.customer} : 'None'"/>
 		</tr>
 	</table>
+	
+	<a href="/createOrder">Create an Order</a></br>
+	<a href="/viewAllItems">View All Items</a></br>
+	
 </body>
 </html>

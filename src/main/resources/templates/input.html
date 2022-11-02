@@ -2,15 +2,18 @@
 <html xmlns:th="www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>${addOrEdit} an Item</title>
+<title th:text="${addOrEdit} + ' an Item'"></title>
 </head>
 <body>
 	<form th:object="${item}" th:action="@{/addItem}" method="post">
 		<input type="hidden" name="id" th:field="*{id}"/>
 		Name: <input name="name" size="20" th:field=*{name}/>
 		Price: <input name="price" size="20" th:field=*{price}/>
-		<input name="submit" type="submit" value="Add Item"/>
+		Active: <input type="checkbox" name="active" th:checked="*{active}"/>
+		<input name="submit" type="submit" th:value="${addOrEdit} + ' Item'"/>
 	</form>
-	<a href="/viewAllItems">View all Items</a>
+	<a href="/viewAllItems">View All Items</a></br>
+	<a href="/createOrder">Create an Order</a></br>
+	<a href="/viewAllOrders">View All Orders</a>
 </body>
 </html>

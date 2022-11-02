@@ -1,6 +1,7 @@
 package dmacc.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -68,7 +69,31 @@ public class WebController {
 		model.addAttribute("addOrEdit", "Edit");
 		return "/input.html";
 	}
-
+	
+	@PostMapping("/updateItemList")
+	public String updateItemList(@RequestParam(value="active", required = false) int[] idArray , Model model) {
+		List<Item> items = itemRepo.findAll();
+		List<Integer> ids = new ArrayList<Integer>();
+		if(idArray.length > 0) {
+			for(int i : idArray) {
+				ids.add(i);
+			}
+			for(Item i : items) {
+				if(i.isActive()) {
+					if(!ids.contains(i.getId())) {
+						i.setActive(false);
+						itemRepo.save(i);
+					}
+				}else {
+					if(ids.contains(i.getId())) {
+						i.setActive(true);
+						itemRepo.save(i);
+					}
+				}
+			}
+		}
+		return viewAllItems(model);
+	}
 	@GetMapping("/deleteItem/{id}")
 	public String deleteItem(@PathVariable("id") int id, Model model) {
 		Item i = itemRepo.findById(id).orElse(null);
@@ -94,22 +119,27 @@ public class WebController {
 	@GetMapping("/viewAllOrders")
 	public String viewAllOrders(Model model) {
 		List<Order> l = orderRepo.findAll();
-		// Map<Integer, Boolean> paid = new HashMap<Integer, Boolean>();
-		// Map<Integer, Double> total = new HashMap<Integer, Double>();
-		/*
-		 * int length = l.size(); for(int i = 0; i < length; i++) {
-		 * paid.put(l.get(i).getId(), l.get(i).isPaid()); total.put(l.get(i).getId(),
-		 * l.get(i).total()); }
-		 */
-		// model.addAttribute("total", total);
 		model.addAttribute("orders", l);
 		return "listOrders";
 	}
-
+	
+	@GetMapping("/createOrder")
+	public String createOrder(Model model) {
+		List<Item> items = itemRepo.findAll();
+		List<Integer> idList = new ArrayList<Integer>();
+		for(Item i : items) {
+			if(!i.isActive()) {
+				idList.add(i.getId());
+			}
+		}
+		for(int id : idList) {
+			items.removeIf(i -> i.getId() == id);
+		}
+		model.addAttribute("items", items);
+		return "newOrder";
+	}
 	@PostMapping("/createOrder")
-	public String createOrder(@RequestParam(value = "active", required = false) String[] active, Model model) { // @ModelAttribute("active")
-																												// String[]
-																												// active
+	public String createOrder(@RequestParam(value = "selected", required = false) String[] active, Model model) { 
 		Order o = new Order();
 		System.out.println(model.toString());
 		List<Integer> ids = new ArrayList<Integer>();
@@ -135,13 +165,16 @@ public class WebController {
 		Transaction t = new Transaction();
 		t.setOrder(o);
 		model.addAttribute("transaction", t);
+		model.addAttribute("orderTotal", o.total());
 		return "signTransaction.html";
 	}
 	
 	@PostMapping("/createTransaction")
 	public String createTransaction(@ModelAttribute Transaction t, Model model) {
+		t.getOrder().setTransaction(t);
 		t = transactionRepo.save(t);
 		model.addAttribute("transaction", t);
+		model.addAttribute("total", t.getOrder().total());
 		return "/transactionDetail.html";
 	}
 
@@ -157,6 +190,7 @@ public class WebController {
 			Item item = new Item();
 			item.setName("Name" + i);
 			item.setPrice(3.50 + i);
+			item.setActive(true);
 			itemRepo.save(item);
 		}
 	}

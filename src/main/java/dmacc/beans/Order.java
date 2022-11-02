@@ -35,7 +35,7 @@ public class Order {
 	@JoinTable(name="ORDER_ITEM")
 	List<Item> items;
 	
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="transaction_id")
 	Transaction transaction;
 	

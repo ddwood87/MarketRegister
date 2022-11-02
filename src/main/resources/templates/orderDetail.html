@@ -4,8 +4,8 @@
 <meta charset="ISO-8859-1">
 <title>Order Detail</title>
 </head>
-<body>
-	<h1>Order #: <span th:text="${order.id}"></span></h1>
+<body th:with="paid=${order.isPaid()}">
+	<h1>Order # <span th:text="${order.id}"></span></h1>
 	<table>
 		<tr>
 			<td>ID</td>
@@ -20,16 +20,23 @@
 			<td><a th:href="@{/removeFromOrder/{order_id}/{item_id}(order_id=${order.id}, item_id=${item.id})}">Delete</a></td>
 		</tr>
 		<tr>
-			<td>Total:</td>
 			<td/>
-			<td th:text="${orderTotal}"/>
+			<td style="border-top: 2px solid black; text-align: right;">Total:</td>
+			<td style="border-top: 2px solid black; text-align: right;" th:text="${orderTotal}"/>
 			<td/>
 		</tr>
+		<tr th:if="${paid}">
+			<td/>
+			<td>Buyer</td>
+			<td th:text="${order.transaction.customer}"/>
+		</tr>
 	</table>
+	<div th:unless="${paid}">
 	<form th:action="@{/createTransaction/{id}(id=${order.id})}">
-		<input type="submit"/>
-	</form>
-	<a href="/viewAllItems">View all Items</a>
+		<input type="submit" value="Buy"/>
+	</form></div>
+	<a href="/viewAllItems">View all Items</a></br>
+	<a href="/createOrder">Create an Order</a></br>
 	<a href="/viewAllOrders">View all Orders</a>
 </body>
 </html>
