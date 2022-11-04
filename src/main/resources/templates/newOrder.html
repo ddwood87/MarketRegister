@@ -5,7 +5,8 @@
 <title>View all Items</title>
 </head>
 <body>
-	<h1>Select Items</h1>
+	<h1>Market Register</h1>
+	<h1>Create Order</h1>
 	<form th:action="@{/createOrder}" method="post">
 	<table>
 		<tr>
@@ -16,8 +17,6 @@
 			<td th:text="${item.id}"/>
 			<td th:text="${item.name}"/>
 			<td th:text="${item.price}"/>
-			<td><a th:href="@{/editItem/{id}(id=${item.id})}">Edit</a></td>
-			<td><a th:href="@{/deleteItem/{id}(id=${item.id})}">Delete</a></td>
 		</tr>
 	</table>
 		<input type="submit" name="submit" value="Create Order"/>

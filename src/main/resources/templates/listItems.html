@@ -5,10 +5,11 @@
 <title>View All Items</title>
 </head>
 <body>
+	<h1>Market Register</h1>
 	<form action="updateItemList" method="post">
 	<table>
 		<tr>
-			<th>ID#</th><th>Name</th><th>Price</th><th>Active</th>
+			<th>ID#</th><th>Name</th><th>Price</th><th/><th>Active</th>
 		</tr>
 		<tr th:each="item : ${items}">
 			<td th:text="${item.id}"/>

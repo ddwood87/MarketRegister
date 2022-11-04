@@ -5,11 +5,12 @@
 <title th:text="${addOrEdit} + ' an Item'"></title>
 </head>
 <body>
+	<h1>Market Register</h1>
 	<form th:object="${item}" th:action="@{/addItem}" method="post">
 		<input type="hidden" name="id" th:field="*{id}"/>
-		Name: <input name="name" size="20" th:field=*{name}/>
-		Price: <input name="price" size="20" th:field=*{price}/>
-		Active: <input type="checkbox" name="active" th:checked="*{active}"/>
+		Name: <input name="name" size="20" th:field=*{name}/></br>
+		Price: <input name="price" size="20" th:field=*{price}/></br>
+		Active: <input type="checkbox" name="active" th:checked="*{active}"/></br>
 		<input name="submit" type="submit" th:value="${addOrEdit} + ' Item'"/>
 	</form>
 	<a href="/viewAllItems">View All Items</a></br>

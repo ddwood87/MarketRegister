@@ -5,6 +5,7 @@
 <title>Order Detail</title>
 </head>
 <body th:with="paid=${order.isPaid()}">
+	<h1>Market Register</h1>
 	<h1>Order # <span th:text="${order.id}"></span></h1>
 	<table>
 		<tr>
@@ -17,7 +18,7 @@
 			<td th:text="${item.id}"/>
 			<td th:text="${item.name}"/>
 			<td th:text="${item.price}"/>
-			<td><a th:href="@{/removeFromOrder/{order_id}/{item_id}(order_id=${order.id}, item_id=${item.id})}">Delete</a></td>
+			<td><a th:href="@{/removeFromOrder/{order_id}/{item_id}(order_id=${order.id}, item_id=${item.id})}" th:hidden="${order.isPaid()}">Delete</a></td>
 		</tr>
 		<tr>
 			<td/>

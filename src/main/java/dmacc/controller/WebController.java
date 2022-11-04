@@ -41,8 +41,8 @@ public class WebController {
 	@GetMapping({ "/", "/viewAllItems" })
 	public String viewAllItems(Model model) {
 		if (itemRepo.findAll().isEmpty()) {
-			starterData();
-			// return addItem(model);
+			//starterData();
+			return addItem(model);
 		}
 		model.addAttribute("items", itemRepo.findAll());
 		return "/listItems.html";
@@ -150,7 +150,14 @@ public class WebController {
 		o = orderRepo.save(o);
 		return orderDetail(o.getId(), model);
 	}
-
+	@GetMapping("/deleteOrder/{id}")
+	public String deleteOrder(@PathVariable("id") int id, Model model) {
+		Order toDelete = orderRepo.findById(id).orElse(null);
+		if(toDelete != null) {
+			orderRepo.delete(toDelete);
+		}
+		return viewAllOrders(model);
+	}
 	@GetMapping("/orderDetail/{id}")
 	public String orderDetail(@PathVariable("id") int id, Model model) {
 		Order o = orderRepo.findById(id).orElse(null);

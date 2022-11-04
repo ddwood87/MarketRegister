@@ -5,6 +5,7 @@
 <title>View all Orders</title>
 </head>
 <body>
+	<h1>Market Register</h1>
 	<h1>Orders</h1>
 	<table>
 		<tr>
@@ -17,6 +18,7 @@
 			<td th:text="${paid} ? 'Yes' : 'No'"/>
 			<td th:text="${paid} ? *{order.transaction.id} : 'None'"/>
 			<td th:text="${paid} ? *{order.transaction.customer} : 'None'"/>
+			<td><a th:href="@{/deleteOrder/{id}(id=${order.id})}" th:hidden="${paid}">Delete</a></td>
 		</tr>
 	</table>
 	
